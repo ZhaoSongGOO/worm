@@ -1,15 +1,25 @@
-
+// Copyright 2024 The Worm Authors. All rights reserved.
+// Licensed under the MIT that can be found in the LINCENSE file
+// in the root directory of this source tree.
 #ifndef __WORM_THREAD_IMPL_H__
 #define __WORM_THREAD_IMPL_H__
 
+#include <memory>
+
+#include "message_loop.h"
+#include "task.h"
 namespace worm {
 class ThreadImpl {
  public:
-  ThreadImpl() = default;
+  ThreadImpl() : loop_(new MessageLoop()) {}
   virtual void Start() = 0;
   virtual void Stop() = 0;
   virtual ~ThreadImpl() = default;
   virtual void Run() = 0;
+  void PostTask(Task&& task) { loop_->PostTask(std::move(task)); }
+
+ protected:
+  std::unique_ptr<MessageLoop> loop_ = nullptr;
 };
 }  // namespace worm
 

@@ -1,14 +1,27 @@
+# Copyright 2024 The Worm Authors. All rights reserved.
+# Licensed under the MIT that can be found in the LINCENSE file
+# in the root directory of this source tree.
+
 config("public_config") {
-  include_dirs += [ "//src" ]
+  include_dirs += [ "../src" ]
 }
 
 source_set("worm") {
   sources = [
+    "auto_lock.cc",
+    "auto_lock.h",
+    "condition.cc",
+    "condition.h",
+    "message_loop.cc",
+    "message_loop.h",
+    "task.h",
     "thread.cc",
     "thread.h",
     "thread_impl.h",
     "thread_impl_posix.cc",
     "thread_impl_posix.h",
+    "timer_utils.cc",
+    "timer_utils.h",
   ]
 
   public_configs = [ ":public_config" ]

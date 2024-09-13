@@ -1,4 +1,6 @@
-
+// Copyright 2024 The Worm Authors. All rights reserved.
+// Licensed under the MIT that can be found in the LINCENSE file
+// in the root directory of this source tree.
 #ifndef __WORM_THREAD_H__
 #define __WORM_THREAD_H__
 #include <memory>
@@ -13,6 +15,7 @@ class Thread {
       : name_(name), impl_(impl) {}
   void Start();
   void Stop();
+  void PostTask(Task&& task) { impl_->PostTask(std::move(task)); }
 
  private:
   std::string name_;

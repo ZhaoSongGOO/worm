@@ -1,3 +1,7 @@
+# Copyright 2024 The Worm Authors. All rights reserved.
+# Licensed under the MIT that can be found in the LINCENSE file
+# in the root directory of this source tree.
+
 deps = {
     "build": {
         "type": "git",

@@ -1,3 +1,6 @@
+// Copyright 2024 The Worm Authors. All rights reserved.
+// Licensed under the MIT that can be found in the LINCENSE file
+// in the root directory of this source tree.
 
 #include "thread_impl_posix.h"
 
@@ -23,7 +26,7 @@ void ThreadPosixImpl::Start() {
   }
 }
 
-void ThreadPosixImpl::Run() { std::cout << "Run from here\n"; }
+void ThreadPosixImpl::Run() { loop_->Loop(); }
 
 void ThreadPosixImpl::Stop() {
   if (thread_handler_) {

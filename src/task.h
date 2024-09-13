@@ -1,12 +1,11 @@
 // Copyright 2024 The Worm Authors. All rights reserved.
 // Licensed under the MIT that can be found in the LINCENSE file
 // in the root directory of this source tree.
-#include "thread.h"
 
-namespace worm {
+#ifndef __TASK_H__
+#define __TASK_H__
 
-void Thread::Start() { impl_->Start(); }
+#include <functional>
+typedef std::function<void(void*)> Task;
 
-void Thread::Stop() { impl_->Stop(); }
-
-}  // namespace worm
+#endif
