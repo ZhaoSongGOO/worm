@@ -1,0 +1,15 @@
+config("public_config") {
+  include_dirs += [ "//src" ]
+}
+
+source_set("worm") {
+  sources = [
+    "thread.cc",
+    "thread.h",
+    "thread_impl.h",
+    "thread_impl_posix.cc",
+    "thread_impl_posix.h",
+  ]
+
+  public_configs = [ ":public_config" ]
+}
