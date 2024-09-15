@@ -30,6 +30,7 @@ void ThreadPosixImpl::Run() { loop_->Loop(); }
 
 void ThreadPosixImpl::Stop() {
   if (thread_handler_) {
+    loop_->Stop();
     pthread_join(thread_handler_, NULL);
   }
 }

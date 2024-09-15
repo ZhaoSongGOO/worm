@@ -16,7 +16,7 @@ class ThreadImpl {
   virtual void Stop() = 0;
   virtual ~ThreadImpl() = default;
   virtual void Run() = 0;
-  void PostTask(Task&& task) { loop_->PostTask(std::move(task)); }
+  void Post(Closure* closure) { loop_->Post(closure); }
 
  protected:
   std::unique_ptr<MessageLoop> loop_ = nullptr;

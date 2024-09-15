@@ -6,6 +6,7 @@
 #include <memory>
 #include <string>
 
+#include "closure.h"
 #include "thread_impl.h"
 
 namespace worm {
@@ -15,7 +16,7 @@ class Thread {
       : name_(name), impl_(impl) {}
   void Start();
   void Stop();
-  void PostTask(Task&& task) { impl_->PostTask(std::move(task)); }
+  void Post(Closure* closure) { impl_->Post(closure); }
 
  private:
   std::string name_;

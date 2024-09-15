@@ -5,7 +5,16 @@
 #ifndef __TASK_H__
 #define __TASK_H__
 
-#include <functional>
-typedef std::function<void(void*)> Task;
+// #include <functional>
+// typedef std::function<void(void*)> Task;
+
+// template <typename F>
+// class Task{
+// public:
+//     Task(F && f):f_(f){}
+
+// private:
+//     F f_;
+// };
 
 #endif

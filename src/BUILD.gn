@@ -10,6 +10,7 @@ source_set("worm") {
   sources = [
     "auto_lock.cc",
     "auto_lock.h",
+    "closure.h",
     "condition.cc",
     "condition.h",
     "message_loop.cc",
