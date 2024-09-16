@@ -10,6 +10,7 @@
 #include "auto_lock.h"
 #include "closure.h"
 #include "condition.h"
+#include "message.h"
 #include "message_heap.h"
 namespace worm {
 
@@ -18,6 +19,8 @@ class MessageLoop {
   MessageLoop() : lock_(), condition_(lock_) {}
   void Loop();
   void Post(Closure* closure);
+  void PostDelay(Closure* closure, int interval);
+  void PostLoop(Closure* closure, int interval);
   void Stop();
 
  private:
@@ -25,6 +28,8 @@ class MessageLoop {
   Lock lock_;
   Condition condition_;
   bool stop_ = false;
+  void DoWork();
+  std::vector<Message> temporary_poped_tasks_;
 };
 }  // namespace worm
 

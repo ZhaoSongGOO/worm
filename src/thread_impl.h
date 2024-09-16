@@ -17,6 +17,12 @@ class ThreadImpl {
   virtual ~ThreadImpl() = default;
   virtual void Run() = 0;
   void Post(Closure* closure) { loop_->Post(closure); }
+  void PostDelay(Closure* closure, int interval) {
+    loop_->PostDelay(closure, interval);
+  }
+  void PostLoop(Closure* closure, int interval) {
+    loop_->PostLoop(closure, interval);
+  }
 
  protected:
   std::unique_ptr<MessageLoop> loop_ = nullptr;

@@ -17,6 +17,12 @@ class Thread {
   void Start();
   void Stop();
   void Post(Closure* closure) { impl_->Post(closure); }
+  void PostDelay(Closure* closure, int interval_time) {
+    impl_->PostDelay(closure, interval_time);
+  }
+  void PostLoop(Closure* closure, int interval_time) {
+    impl_->PostLoop(closure, interval_time);
+  }
 
  private:
   std::string name_;

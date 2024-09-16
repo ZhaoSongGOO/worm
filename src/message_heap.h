@@ -14,7 +14,7 @@ class MessageHeap {
   MessageHeap() {}
   ~MessageHeap() {}
 
-  uint64_t NextTimeout() {
+  uint64_t NextTimeOut() {
     return !min_heap_.empty() ? min_heap_[0].next_timeout_ : ULLONG_MAX;
   }
 
@@ -23,6 +23,8 @@ class MessageHeap {
   void Remove(Message& node);
 
   Message Pop();
+
+  Message& Top() { return min_heap_[0]; }
 
   void Push(Message& node);
 

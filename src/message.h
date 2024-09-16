@@ -30,11 +30,13 @@ class Message {
 
   Message(Message& other)
       : closure_(other.closure_),
+        need_loop_(other.need_loop_),
         interval_time_(other.interval_time_),
         next_timeout_(other.next_timeout_) {}
 
   Message(Message&& other)
       : interval_time_(other.interval_time_),
+        need_loop_(other.need_loop_),
         next_timeout_(other.next_timeout_) {
     closure_.reset();
     other.closure_.swap(closure_);
@@ -61,9 +63,10 @@ class Message {
   std::shared_ptr<Closure> closure_ = nullptr;
   bool need_loop_;
   int interval_time_;
-  int next_timeout_;
+  uint64_t next_timeout_;
 
   friend class MessageHeap;
+  friend class MessageLoop;
 };
 }  // namespace worm
 
