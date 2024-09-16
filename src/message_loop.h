@@ -10,6 +10,7 @@
 #include "auto_lock.h"
 #include "closure.h"
 #include "condition.h"
+#include "message_heap.h"
 namespace worm {
 
 class MessageLoop {
@@ -20,7 +21,7 @@ class MessageLoop {
   void Stop();
 
  private:
-  std::list<std::shared_ptr<Closure>> tasks_;
+  MessageHeap heap_;
   Lock lock_;
   Condition condition_;
   bool stop_ = false;

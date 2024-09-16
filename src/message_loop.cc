@@ -6,38 +6,42 @@
 
 #include <algorithm>
 #include <memory>
+#include <vector>
 
 #include "auto_lock.h"
 #include "closure.h"
+#include "message.h"
 namespace worm {
 
 void MessageLoop::Loop() {
   while (1) {
-    std::list<std::shared_ptr<Closure>> tmp;
+    std::vector<Message> tmp;
     size_t size;
     {
       AutoLock lock(lock_);
       if (stop_) {
         break;
       }
-      if (tasks_.size() == 0) {
+      if (heap_.IsEmpty()) {
         condition_.Wait();
         if (stop_) {
           break;
         }
       }
-      tmp = std::move(tasks_);
-      size = tasks_.size();
+      while (!heap_.IsEmpty()) {
+        tmp.push_back(heap_.Pop());
+      }
     }
-    for (auto &task : tmp) {
-      task->Run();
+    for (auto &message : tmp) {
+      message.Run();
     }
   }
 }
 
 void MessageLoop::Post(Closure *closure) {
   AutoLock lock(lock_);
-  tasks_.push_back(std::shared_ptr<Closure>(closure));
+  Message message(closure, 0);
+  heap_.Push(message);
   condition_.Signal();
 }
 

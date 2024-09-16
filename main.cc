@@ -24,7 +24,7 @@ int main() {
   worm::Thread thread("demo", impl);
   thread.Start();
   int i = 0;
-  while (i < 500000) {
+  while (i < 50) {
     thread.Post(worm::Bind([](int x) { std::cout << x << std::endl; }, i));
     i += 1;
   }
