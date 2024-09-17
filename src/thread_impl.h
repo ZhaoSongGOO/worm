@@ -24,6 +24,10 @@ class ThreadImpl {
     loop_->PostLoop(closure, interval);
   }
 
+  void PostSync(Closure* closure, int interval_time = 0) {
+    loop_->PostSync(closure, interval_time);
+  }
+
  protected:
   std::unique_ptr<MessageLoop> loop_ = nullptr;
 };

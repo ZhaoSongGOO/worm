@@ -87,6 +87,19 @@ void MessageLoop::PostLoop(Closure *closure, int interval) {
   condition_.Signal();
 }
 
+void MessageLoop::PostSync(Closure *closure, int interval_time) {
+  worm::Lock local_lock;
+  worm::Condition local_condition(local_lock);
+  Closure *closure_wrapper = worm::Bind(
+      [&local_condition, closure = std::shared_ptr<Closure>(closure)]() {
+        closure->Run();
+        local_condition.Signal();
+      });
+  Message message(closure_wrapper, interval_time);
+  heap_.Push(message);
+  local_condition.Wait();
+}
+
 void MessageLoop::Stop() {
   AutoLock lock(lock_);
   stop_ = true;

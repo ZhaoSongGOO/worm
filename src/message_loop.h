@@ -21,6 +21,7 @@ class MessageLoop {
   void Post(Closure* closure);
   void PostDelay(Closure* closure, int interval);
   void PostLoop(Closure* closure, int interval);
+  void PostSync(Closure* closure, int interval_time = 0);
   void Stop();
 
  private:

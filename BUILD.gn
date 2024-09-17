@@ -2,8 +2,20 @@
 # Licensed under the MIT that can be found in the LINCENSE file
 # in the root directory of this source tree.
 
-executable("main") {
-  sources = [ "./main.cc" ]
+executable("loop_message") {
+  sources = [ "./example/loop_message.cc" ]
+
+  deps = [ "//src:worm" ]
+}
+
+executable("delay_message") {
+  sources = [ "./example/delay_message.cc" ]
+
+  deps = [ "//src:worm" ]
+}
+
+executable("sync_message") {
+  sources = [ "./example/sync_message.cc" ]
 
   deps = [ "//src:worm" ]
 }

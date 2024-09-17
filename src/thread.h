@@ -24,6 +24,10 @@ class Thread {
     impl_->PostLoop(closure, interval_time);
   }
 
+  void PostSync(Closure* closure, int interval_time = 0) {
+    impl_->PostSync(closure, interval_time);
+  }
+
  private:
   std::string name_;
   std::unique_ptr<ThreadImpl> impl_;
