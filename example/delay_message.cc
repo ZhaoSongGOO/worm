@@ -5,7 +5,9 @@
 #include <unistd.h>
 
 #include <iostream>
+#include <memory>
 
+#include "actor.h"
 #include "auto_lock.h"
 #include "closure.h"
 #include "condition.h"
@@ -19,12 +21,27 @@ void wait(worm::Thread& thread) {
   local_condition.Wait();
 }
 
+class Test {
+ public:
+  void Say(int x) { std::cout << " Say " << x << " from Test\n"; }
+};
+
 int main() {
   worm::ThreadPosixImpl* impl = new worm::ThreadPosixImpl();
-  worm::Thread thread("demo", impl);
-  thread.Start();
-  thread.PostDelay(worm::Bind([](int x) { std::cout << x << std::endl; }, 123),
-                   1000);
+  // worm::Thread thread("demo", impl);
+  // thread.Start();
+  // thread.PostDelay(worm::Bind([](int x) { std::cout << x << std::endl; },
+  // 123),
+  //                  1000);
+
+  std::shared_ptr<worm::Thread> thread =
+      std::make_shared<worm::Thread>("Demo", impl);
+  thread->Start();
+
+  std::shared_ptr<worm::Actor<Test>> actor =
+      std::make_shared<worm::Actor<Test>>(std::make_unique<Test>(), thread);
+  int x = 12345;
+  actor->ActDelay([x](auto& imp) { imp->Say(x); }, 1000);
 
   while (1) {
   }
