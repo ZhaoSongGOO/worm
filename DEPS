@@ -5,14 +5,14 @@
 deps = {
     "build": {
         "type": "git",
-        "repo": "git@gitee.com:zhaosong-lmm_admin/build.git",
-        "commit": "faebf6ac896fcfc8acbf7fff19cb9f58ef1b7950",
+        "repo": "https://github.com/ZhaoSongGOO/build.git",
+        "commit": "ed627978de417018824f7731389e809cfad18e61",
         "ignore": True,
     },
     "tools": {
         "type": "git",
-        "repo": "git@gitee.com:zhaosong-lmm_admin/tools.git",
-        "commit": "285db3ffeaac04ec9aa53efe3cf7436b5ad5d859",
+        "repo": "https://github.com/ZhaoSongGOO/tools.git",
+        "commit": "b1b1620cced1bdca90345ecf78c0766c09756156",
         "ignore": True,
     },
 }

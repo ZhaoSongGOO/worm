@@ -19,3 +19,9 @@ executable("sync_message") {
 
   deps = [ "//src:worm" ]
 }
+
+executable("object_member_call") {
+  sources = [ "./example/object_member_call.cc" ]
+
+  deps = [ "//src:worm" ]
+}

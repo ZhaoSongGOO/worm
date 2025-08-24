@@ -8,6 +8,9 @@
 #include <tuple>
 
 namespace worm {
+/**
+ * @brief 闭包函数基类，用来表示任务。
+ */
 class Closure {
  public:
   Closure() {}
@@ -57,7 +60,7 @@ template <typename P, typename F, typename T>
 struct InvokeHelper<false, P, F, T> {
   template <typename std::size_t... I>
   static void Invoke(P p, F& f, T& t, IndexSequence<I...>) {
-    (p.get()->*f)(std::get<I>(std::forward<T>(t))...);
+    (p->*f)(std::get<I>(std::forward<T>(t))...);
   }
 };
 
@@ -70,7 +73,7 @@ struct InvokeHelper<false, std::shared_ptr<M>, F, T> {
   }
 };
 
-template <typename Functor, typename Pointer, typename... Args>
+template <typename Pointer, typename Functor, typename... Args>
 class Callback : public Closure {
  public:
   using BoundIndices = MakeIndexSequence<sizeof...(Args)>;
@@ -79,7 +82,7 @@ class Callback : public Closure {
   using StorageType = typename std::tuple<typename std::decay<Args>::type...>;
   using IsWeak = IsWeakRef<Pointer>;
 
-  explicit Callback(Functor&& f, Pointer p, Args&&... args)
+  explicit Callback(Pointer p, Functor&& f, Args&&... args)
       : f_(std::forward<Functor>(f)),
         p_(p),
         args_storage_(std::forward<Args>(args)...) {}
@@ -95,10 +98,10 @@ class Callback : public Closure {
   StorageType args_storage_;
 };
 
-template <typename Functor, typename Pointer, typename... Args>
-Closure* BindMember(Functor&& f, Pointer p, Args&&... args) {
-  using CallbackType = Callback<Functor, Pointer, Args...>;
-  return new CallbackType(std::forward<Functor>(f), p,
+template <typename Pointer, typename Functor, typename... Args>
+Closure* BindMember(Pointer p, Functor&& f, Args&&... args) {
+  using CallbackType = Callback<Pointer, Functor, Args...>;
+  return new CallbackType(p, std::forward<Functor>(f),
                           std::forward<Args>(args)...);
 }
 
@@ -115,7 +118,10 @@ class FunctionCallback : public Closure {
  private:
   template <typename std::size_t... I>
   void invoke(IndexSequence<I...>) {
-    (func_)(std::get<I>(std::forward<StorageType>(args_storage_))...);
+    (func_)(std::get<I>(std::forward<StorageType>(
+        args_storage_))...);  // 这里最后的 ... 是参数包模式展开语法，前面 I
+                              // 是一个参数包，准确来说是一个整数序列，...
+                              // 就是展开形成多次 std::get<>
   }
   F func_;
   StorageType args_storage_;

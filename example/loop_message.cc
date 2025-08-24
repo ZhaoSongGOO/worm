@@ -23,8 +23,11 @@ int main() {
   worm::ThreadPosixImpl* impl = new worm::ThreadPosixImpl();
   worm::Thread thread("demo", impl);
   thread.Start();
-  thread.PostLoop(worm::Bind([](int x) { std::cout << x << std::endl; }, 123),
-                  1000);
+  thread.PostLoop(
+      worm::Bind(
+          [](int x, float y) { std::cout << x << ", " << y << std::endl; }, 123,
+          1.2),
+      1000);
 
   while (1) {
   }
